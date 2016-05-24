@@ -1,5 +1,7 @@
 使用者文档
 
+主程序, Lantans_dev,py
+
 1:接收文件
     1.1使用:
         打开软件->选择receive file->选择保存路径->点击ready to receive, 然后等待局域网中的发送方即可.

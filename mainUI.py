@@ -100,19 +100,19 @@ class Ui_LanTrans(object):
     def retranslateUi(self, LanTrans):
         _translate = QtCore.QCoreApplication.translate
         LanTrans.setWindowTitle(_translate("LanTrans", "LanTrans"))
-        self.sendFileRadio.setText(_translate("LanTrans", "Send Files"))
-        self.addFileBtn.setText(_translate("LanTrans", "Add File"))
-        self.removeBtn.setText(_translate("LanTrans", "Remove"))
-        self.receiveFileRadio.setText(_translate("LanTrans", "Receive Files"))
-        self.savePathBtn.setText(_translate("LanTrans", "SavePath"))
-        self.status.setText(_translate("LanTrans", "Status"))
-        self.processdure.setText(_translate("LanTrans", "Processdure"))
-        self.connectHostBtn.setText(_translate("LanTrans", "Connect Host"))
-        self.startBtn.setText(_translate("LanTrans", "Start"))
-        self.menuFile.setTitle(_translate("LanTrans", "File"))
-        self.menuAbout.setTitle(_translate("LanTrans", "Help"))
-        self.actionExit.setText(_translate("LanTrans", "Exit"))
-        self.actionAbout.setText(_translate("LanTrans", "About"))
+        self.sendFileRadio.setText(_translate("LanTrans", "发送文件"))
+        self.addFileBtn.setText(_translate("LanTrans", "添加"))
+        self.removeBtn.setText(_translate("LanTrans", "移除"))
+        self.receiveFileRadio.setText(_translate("LanTrans", "接收文件"))
+        self.savePathBtn.setText(_translate("LanTrans", "保存位置"))
+        self.status.setText(_translate("LanTrans", "状态"))
+        self.processdure.setText(_translate("LanTrans", "进度"))
+        self.connectHostBtn.setText(_translate("LanTrans", "连接主机"))
+        self.startBtn.setText(_translate("LanTrans", "开始"))
+        self.menuFile.setTitle(_translate("LanTrans", "文件"))
+        self.menuAbout.setTitle(_translate("LanTrans", "帮助"))
+        self.actionExit.setText(_translate("LanTrans", "退出"))
+        self.actionAbout.setText(_translate("LanTrans", "关于"))
 
 
 if __name__ == "__main__":
