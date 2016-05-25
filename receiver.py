@@ -3,7 +3,7 @@ from threading import Thread
 from PyQt5.QtWidgets import *
 from itemWidget import ItemWidget
 from mainUI import Ui_LanTrans
-from os import path
+import os
 import platform
 import socket
 import time
@@ -42,8 +42,10 @@ class udpServerThread(QtCore.QThread):
         self.updateState.emit(("message", "<b><font color='green'>MESSAGE:&nbsp;</font></b>找到发送者: <b>" + address[0] + "</b>&nbsp;&nbsp;<b><font color='red'>准备接收文件, 点[接收]</font></b>"))
 
         #return which port to sender 将TCP使用的连接发送给文件发送方用于建立TCP连接
-        serverOpenPort = str(self.caller.TCPPort)
-        self.udpServer.sendto(serverOpenPort.encode(), address) ##################################send
+
+        serverOpenPort = str(self.caller.TCPPort) + self.caller.DELIMITER
+        print("port", serverOpenPort)
+        self.udpServer.sendto(serverOpenPort.encode("utf-8"), address) ##################################send
 
         self.udpServer.close()
 
@@ -81,7 +83,8 @@ class tcpServerThread(QtCore.QThread):
         print("receiver", "Connected with sender, sender address:", senderAddr)
 
         data = conn.recv(self.caller.stringBufLen) #接收文件描述
-        strmsg = data.decode("utf-8").strip()
+        strmsg = data.decode("utf-8")
+        strmsg = strmsg[0 : strmsg.find(self.caller.EOF)]
         files = []
         for single in strmsg.split(self.caller.FILES_SPT): #解析出文件描述的内容信息
             if len(single) > 0:
@@ -131,10 +134,12 @@ class receiveFileThread(QtCore.QThread):
                 self.caller.serverTcpConn.sendall(msg)#直接将原信息返回
 
                 #get extract file information
-                fileDesc = msg.decode("utf-8").strip().split(self.caller.NAME_LEN_SPT) #like([file~length], []) first is valid
+                strfiledesc = msg.decode("utf-8")
+                strfiledesc = strfiledesc[0 : strfiledesc.find(self.caller.EOF)]
+                fileDesc = strfiledesc.split(self.caller.NAME_LEN_SPT) #like([file~length], []) first is valid
                 print("receiving:", str(self.savepath) + "/" + str(fileDesc[0]), "length:", str(fileDesc[1]))
-                self.updateState.emit(("message", "<b><font color='blue'>MESSAGE:&nbsp;</font></b><font color='blue'正在接收:" + str(fileDesc[0]) + "</font>"))
-
+                self.updateState.emit(("message", "<b><font color='blue'>MESSAGE:&nbsp;</font></b><font color='green'>开始接收:" + str(self.fileDesc[0][0]) + "</font>"))
+        
                 #open file to save
                 f = open(self.savepath + "/" + str(fileDesc[0]), "wb")
 
@@ -174,7 +179,7 @@ class receiveFileThread(QtCore.QThread):
 
                 if hasRecv == fileSize:
                     ack = str(hasRecv)
-                    self.caller.serverTcpConn.sendall(ack.encode())
+                    self.caller.serverTcpConn.sendall(ack.encode("utf-8"))
 
                     timeDiff = end - staticStart
                     if timeDiff == 0.0:

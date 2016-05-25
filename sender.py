@@ -22,7 +22,7 @@ class udpClientThread(QtCore.QThread):
         self.udpClient.settimeout(self.caller.searchTimeout)
         self.udpClient.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-        msg = socket.gethostname()#向局域网中广播自己的主机名
+        msg = "Lantrans Desktop UDPCLIENT"#向局域网中广播自己的主机名
         msg += self.caller.DELIMITER
 
         buf = None
@@ -60,7 +60,9 @@ class udpClientThread(QtCore.QThread):
             self.updateState.emit(("message", "<b><font color='green'>MESSAGE:&nbsp;</font></b>找到接收者: <b>" + str(address[0]) + "</b>&nbsp;&nbsp;<b><font color='red'>点[开始]发送</font></b>"))
 
             #接收方将TCP使用的端口号发送过来
-            tempPort = int(buf.decode("utf-8").strip())#将缓冲区的的端口号读成字符串在转化为整数
+            strPort = buf.decode("utf-8")
+            strPort = strPort[0 : strPort.find(self.caller.EOF)]
+            tempPort = int(strPort)#将缓冲区的的端口号读成字符串在转化为整数
             self.caller.TCPPort = tempPort#将端口号保存到UI线程的全局变量中
 
             ld = list(address)
@@ -108,16 +110,17 @@ class tcpClientThread(QtCore.QThread):
             msg += path.basename(f) + self.caller.NAME_LEN_SPT + str(path.getsize(f)) + self.caller.FILES_SPT
 
         msg += self.caller.DELIMITER
+        print("send file desc:", msg)
         #发送文件描述
         self.tcpClient.sendall(msg.encode("utf-8"))
 
-        msg = ""
+        print("等待接收确认信息")
         #充值msg保存接收方(server)的回复信息
         msg = self.tcpClient.recv(self.caller.stringBufLen)
 
+        print("成功建立连接")
         self.updateState.emit(("message", "<b><font color='green'>MESSAGE:&nbsp;</font></b>成功建立连接"))
-
-        if len(msg.decode("utf-8").strip()):#如果信息不为空, 说明server已经准备好接收文件了
+        if len(msg):#如果信息不为空, 说明server已经准备好接收文件了
             self.caller.hasConnectedToRecver = True
             self.caller.clientTcpConn = self.tcpClient #将次连接保存到UI, 等用户点start开始文件传输
             print("sender", "receiver is ready to receiv files")#======================================================
@@ -158,7 +161,7 @@ class sendFileThread(QtCore.QThread):
                 #recv acknowledgement, actually this is used to sperate 2 files' bytes stream between two file
             
                 fuck =  self.caller.clientTcpConn.recv(self.caller.stringBufLen)#接收文件描述
-                print("reciver reply", fuck.decode("utf-8"))
+                print("reciver reply", fuck.decode("utf-8").strip())
 
                 while True: #死循环开始文件传输
                     content = f.read(self.caller.fileIOBufLen)
@@ -186,8 +189,9 @@ class sendFileThread(QtCore.QThread):
 
                 #receive acknowledgement message #接收server的确认信息
                 ack = self.caller.clientTcpConn.recv(self.caller.stringBufLen)
-
-                if int(ack.decode("utf-8").strip()) == fileSize:
+                ack = ack.decode("utf-8")
+                ack = ack[0: ack.find(self.caller.EOF)]
+                if int(ack) == fileSize:
                     timeDiff = end - staticStart
                     if timeDiff == 0.0:
                         timeDiff = 0.00001;

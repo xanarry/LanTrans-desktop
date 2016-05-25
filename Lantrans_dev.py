@@ -13,7 +13,10 @@ class LanTrans(Ui_LanTrans, QtWidgets.QMainWindow):
     def __init__(self):
         super(LanTrans, self).__init__()
         self.setupUi(self)
-        self.DELIMITER = "\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r"
+
+        self.DELIMITER = "    \neofeof    \neofeof"
+        self.EOF = "    \neofeof"
+
         self.NAME_LEN_SPT = "~"
         self.FILES_SPT = "`"
 
