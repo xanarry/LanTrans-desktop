@@ -255,7 +255,7 @@ class LanTrans(Ui_LanTrans, QtWidgets.QMainWindow):
             speed = str(int(pair[2] / 1024 * 100) / 100) + "MB/S"
         if pair[2] == -1:
             speed = "已完成"
-
+ 
         itemWidget.state.setText(speed)
 
     def recoverState(self):
@@ -319,6 +319,7 @@ class LanTrans(Ui_LanTrans, QtWidgets.QMainWindow):
         if self.isSendFile == True:
             self.tcpClientThread.start()
             self.tcpClientThread.wait()
+
         elif self.isSendFile == False:
             if self.serverTcpConn == None:
                 self.statusText.append("<b><font color='red'>ERROR:&nbsp;</font></b>TCP连接无效")
@@ -329,13 +330,14 @@ class LanTrans(Ui_LanTrans, QtWidgets.QMainWindow):
                 self.receiveFileThread.start()
 
     #start button is only for send file
-    def startWork(self):
+    def startWork(self):#点击发送文件后的函数
         if len(self.files) == 0:
             QMessageBox.information(self, "Message", "请先选择文件")
 
         elif self.receiverAddr is not None:
             self.constructConnection()
             if self.hasConnectedToRecver == True:
+                print("main connection is ok")
                 self.disableList()
                 self.disableAllBtn()
                 self.sendFileThread.setFile(self.files)

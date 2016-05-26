@@ -163,6 +163,10 @@ class sendFileThread(QtCore.QThread):
                 fuck =  self.caller.clientTcpConn.recv(self.caller.stringBufLen)#接收文件描述
                 print("reciver reply", fuck.decode("utf-8").strip())
 
+                if fileSize == 0:
+                    self.updateRate.emit((i, 100, 888))
+                    continue
+
                 while True: #死循环开始文件传输
                     content = f.read(self.caller.fileIOBufLen)
                     if content is None: #如果文件传输完成, 或者异常发生

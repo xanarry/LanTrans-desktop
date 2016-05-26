@@ -44,7 +44,7 @@ class udpServerThread(QtCore.QThread):
         #return which port to sender 将TCP使用的连接发送给文件发送方用于建立TCP连接
 
         serverOpenPort = str(self.caller.TCPPort) + self.caller.DELIMITER
-        print("port", serverOpenPort)
+        print("receiver open port", serverOpenPort)
         self.udpServer.sendto(serverOpenPort.encode("utf-8"), address) ##################################send
 
         self.udpServer.close()
@@ -150,6 +150,10 @@ class receiveFileThread(QtCore.QThread):
                 staticStart = start #used to calculate total time consumption
 
                 cnt = hasRecv = speed = 0
+
+                if fileSize == 0:
+                    self.updateRate.emit((i, 100, 999))
+                    continue
 
                 #start to receive file from internet
                 while True:
