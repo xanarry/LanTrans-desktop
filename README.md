@@ -1,6 +1,6 @@
 ##使用者文档
 #ubuntu效果
-<img src=https://github.com/xanarry/LanTrans-desktop/blob/master/screenshut_linux.png/>
+<img src=https://github.com/xanarry/LanTrans-desktop/blob/master/linux.png/>
 #windows效果
 <img src=https://github.com/xanarry/LanTrans-desktop/blob/master/sreenshut_windows.PNG/>
 
