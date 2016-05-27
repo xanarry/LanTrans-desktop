@@ -4,8 +4,7 @@
 #windows效果
 <img src=https://github.com/xanarry/LanTrans-desktop/blob/master/sreenshut_windows.PNG/>
 
-主程序, Lantans_desktop.py
-运行时所需环境： python3.4, PyQT5
+#主程序, Lantans_desktop.py 运行时所需环境： python3.4, PyQT5
 
 #如果接收过程无法被扫描到, 请关闭防火墙
 
