@@ -1,6 +1,8 @@
 ## 文档(代码有点简单粗暴难看, 请大牛直接无视)
+
 # ubuntu效果
 <img src=https://github.com/xanarry/LanTrans-desktop/blob/master/linux.png/>
+
 # windows效果
 <img src=https://github.com/xanarry/LanTrans-desktop/blob/master/sreenshut_windows.PNG/>
 
