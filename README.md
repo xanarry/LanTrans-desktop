@@ -1,4 +1,4 @@
-## 文档(代码有点简单粗暴难看, 请大牛直接无视)
+## 文档(代码比较乱)
 
 # ubuntu效果
 <img src=https://github.com/xanarry/LanTrans-desktop/blob/master/linux.png/>
